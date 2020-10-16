@@ -31,6 +31,8 @@ cfg.trialdef.eventvalue = [8 16];                                          % 8 a
 cfg.trialdef.prestim  = 4;
 cfg.trialdef.poststim = 1;
 cfg = ft_definetrial(cfg);
+trl = cfg.trl; 
+labels = trl(:,4);                                                         % will be used for labelling later (see Visual_rejection.m)
 
 % Select our EEG channels and demean the data
 cfg.channel = {'A*','B*'};  
@@ -62,6 +64,6 @@ data_epoched_cleanICA = myft_apply_projection_matrix(data_epoched,M);      % Thi
 
 %% Save the cleaned data
 
-save data_epoched_cleanICA data_epoched_cleanICA;
+save data_epoched_cleanICA_subject001 data_epoched_cleanICA labels;
 clear all;
 disp("done");
