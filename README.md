@@ -16,6 +16,7 @@ Proceed to generate a forecast map of future events by running "forecast_matrix.
 
 An exemple of output map can be found in "output_exemple.csv" 
 
+
 # Further information
 
 Please find further information about the project in the pdf file
