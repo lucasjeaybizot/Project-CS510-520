@@ -19,7 +19,7 @@ if (!exists("parameters")) {
 
 simulation_duration_initial <- parameters$simulation_duration # size of steps of data per iteration of the while loop (in seconds)
 
-iterations <- readline(prompt = "Enter number of iterations desired here. For testing purposes small values (>5) are advised :") # counter of while loop run
+iterations <- readline(prompt = "Enter number of iterations desired here. For testing purposes small values (smaller than 5) are advised :") # counter of while loop run
 distance_for_plotting <- numeric(iterations)                           # initial vector for plotting
 
 if (parameters$numSubjects > 1) {
