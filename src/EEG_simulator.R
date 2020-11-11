@@ -16,10 +16,8 @@
 
 ## DEPENDENCIES ----------------------------------------------------------------------------------------------------------------
 
-#install.packages("pracma")
 library("pracma")
 
-#install.packages("abind")
 library("abind")
 
 source(paste(src_path, "change_beta.R", sep = ""))
@@ -59,7 +57,7 @@ for (k in 1:numSubjects) {
   # change beta (1/f exponent) (i.e. adds pink noise) of a randomly generated signal with rnorm() 
 
   for (j in 1:numChannels) {
-    simulated_data[j,] <- change_beta(rnorm(Srate*simulation_duration), EEG_values[j,1])
+    simulated_data[j,] <- change_beta(rnorm(Srate * simulation_duration), EEG_values[j,1])
   }
   
   # store the simulation
@@ -73,7 +71,7 @@ for (k in 1:numSubjects) {
 
 # add an empty channel in the data cube to store later store event positions
 
-empty_array <- array(data = NA, dim = c(numSubjects, 1, Srate*simulation_duration))
+empty_array <- array(data = NA, dim = c(numSubjects, 1, Srate * simulation_duration))
 data_subjects <- abind(data_subjects, empty_array, along = 2)
 
 ## Finishing steps ------------------------------------------------------------------------------------------------------------ 
