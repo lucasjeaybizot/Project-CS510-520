@@ -1,0 +1,5 @@
+# Fix all the self-flagged warnings
+
+# Implement different combinations of channels weights (rather than mean())
+
+# Include a coefficient in the convolution in model A to control the signal-to-noise ratio
