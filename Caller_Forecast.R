@@ -6,7 +6,7 @@
 # Another feature of this script is the data_length_finder feature that generates a graph of convergence of forecast maps 
 # based on the length (amount) of the simulated data. 
 
-# NOTE 1: please see project.pdf and README files for further information
+# NOTE: please see docs folder and README files for further information
 
 #### INPUT #### ----------------------------------------------------------------------------------------------------------------
 # Inputs will depend on the mode selected. Some inputs are user prompted
@@ -33,6 +33,14 @@ src_path <- paste(project_path, "/src/", sep = "")
 
 data_path <- paste(project_path, "/data/", sep = "")
 
+## Install packages if missing -------------------------------------------------------------------------------------------------
+
+dependencies <- c("pracma", "abind")
+to_be_installed <- dependencies[!(dependencies %in% installed.packages()[,"Package"])]
+if (length(to_be_installed) > 0) {
+  install.packages(to_be_installed)
+  }
+
 ## Variables initiation --------------------------------------------------------------------------------------------------------
 
 # initialize empty parameters data.frame
@@ -58,7 +66,6 @@ parameters$timeBins_perSecond <- 5       # desired size of the timepoints in the
 user_input <- readline(prompt = "Would you like to use default parameters (y/n)?")
 
 if (user_input=="n") {
-  parameters$Srate <- as.numeric(readline(prompt = "Please enter a sampling rate (numeric value): "))
   parameters$numSubjects <- as.numeric(readline(prompt = "Please enter a number of subjects (numeric value): "))
   parameters$simulation_duration <- as.numeric(readline(prompt = "Please enter the duration on the simulation in seconds (numeric value): "))
   parameters$numEvent_perMin <- as.numeric(readline(prompt = "Please enter the desired number of events per minutes (numeric value): "))
@@ -138,6 +145,5 @@ if (data_length_finder) {
 
 # Clear environment
 
-rm(forecast_generation, data_length_finder, user_input, project_path, src_path, data_path)
+rm(forecast_generation, data_length_finder, user_input, project_path, src_path, data_path, dependencies, to_be_installed)
 gc()
-
