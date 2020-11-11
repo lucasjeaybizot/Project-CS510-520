@@ -36,7 +36,7 @@ For the DLF analysis, the result will be a 2D plot, with the distance between tw
 
 # Want to know more
 
-The role of each script individually is described in Code Description.docx in the docs folder. The original proposal can also be found there (although not updated). An example output saved in csv format can be found in the examples folder.
+The role of each script individually is described in Code Description.docx in the docs folder. The original proposal can also be found there (although it is not updated, it contains a description of model A and model B). An example output saved in csv format can be found in the examples folder.
 
 
 *By Lucas Jeay-Bizot*
