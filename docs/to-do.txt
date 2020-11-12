@@ -3,3 +3,11 @@
 # Implement different combinations of channels weights (rather than mean())
 
 # Include a coefficient in the convolution in model A to control the signal-to-noise ratio
+
+# Profile the code more --> try to find a way to turn into functions most of the actions
+
+# Create output visualisation (with possibility of storage - using prompt - in a result folder)
+
+# Add more than one subject possibility in the data_length_finder ?
+
+# Add a prompt in the data_length_finder to pick between model A and model B
