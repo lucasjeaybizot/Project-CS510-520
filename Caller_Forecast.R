@@ -74,6 +74,7 @@ if (user_input=="n") {
   parameters$varBins <- as.numeric(readline(prompt = "Please enter the number of different variable bins desired in the forecast maps (numeric value): "))
   parameters$numFuture <- as.numeric(readline(prompt = "Please enter the number of future timepoints to be forecasted in the forecast maps (numeric value): "))
   parameters$timeBins_perSecond <- as.numeric(readline(prompt = "Please enter the desired number of time bins per seconds in the forecast maps (numeric value): "))
+  parameters$coef_SNR <- as.numeric(readline(prompt = "Please enter the desired signal to noise ratio for model A (numeric value): "))
 }
 
 if (60 / parameters$numEvent_perMin < parameters$spacing) {
