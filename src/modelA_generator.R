@@ -111,6 +111,20 @@ for (l in 1:numSubjects) {
     averaged_data[2,i] <- modelA_data[65,i]
   }
   
+  ####### UNDER CONSTRUCTION -- PROBABLY WILL HAVE TO RESORT TO A PACKAGES: e.g. "signal" #######
+  
+  # apply low-pass filter to the signal (1/10th of a second)
+  ### WARNING ### that filter introduces NAs.. 
+  
+  #averaged_data[1,] <- filter(averaged_data[1,], rep(1 / floor(Srate / 10), floor(Srate / 10)), sides = 2)
+  
+  # get the signal's derivative
+  ### WARNING ### quickfixed pasted a 0 to get equal length vectors
+  
+  #averaged_data[1,] <- c(diff(averaged_data[1,], lag = 1),0)
+  
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+  
   averaged_data_subjects[l,,] <- averaged_data
   rm(averaged_data, modelA_data)
 }
@@ -120,4 +134,4 @@ for (l in 1:numSubjects) {
 # clear the environment
 
 rm(chan, chanWeigths, coef_SNR, l, signal_RP, event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numSubjects, data_subjects,numEvent_perMin, spacing, Srate)
-gc()
+gc() 
