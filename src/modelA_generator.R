@@ -25,7 +25,7 @@ if (!exists("data_subjects")) {
 
 # load input data
 
-simulated_RP <- as.matrix(read.csv(paste(data_path, "RP_data.csv", sep = ""),header = TRUE))
+signal_RP <- as.matrix(read.csv(paste(data_path, "RP_data.csv", sep = ""),header = TRUE))
 
 # set up variables from parameters data.frame
 
@@ -44,7 +44,7 @@ numChannels <- as.numeric(length(data_subjects[1,,1])) - 1         # number of E
 numSamples <- as.numeric(length(data_subjects[1,1,]))              # number of samples in one channels' timeseries
 numEvents <- floor((numSamples / (Srate * 60)) * numEvent_perMin)  # number of events
 numSubjects <- as.numeric(length(data_subjects[,1,1]))             # number of subjects
-event_width <- ncol(simulated_RP)                                  # number of samples of the RP signal
+event_width <- ncol(signal_RP)                                  # number of samples of the RP signal
 event_spacing <- Srate * spacing                                   # minimal number of samples separating two events
 
 ## Start of computations ------------------------------------------------------------------------------------------------------ 
@@ -63,7 +63,7 @@ for (k in 1:numSubjects) {
   to_be_added <- array(data = 0, dim = c(numChannels, numSamples))
   
   for (i in 1:numEvents) {
-    to_be_added[1:numChannels, event_ID[i]:(event_ID[i] + event_width - 1)] <- simulated_RP[1:numChannels,]    
+    to_be_added[1:numChannels, event_ID[i]:(event_ID[i] + event_width - 1)] <- signal_RP[1:numChannels,]    
   }
 
   data_subjects[k,1:numChannels,] <- data_subjects[k,1:numChannels,]*coef_SNR + to_be_added
@@ -105,5 +105,5 @@ for (l in 1:numSubjects) {
 
 # clear the environment
 
-rm(l, simulated_RP, event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numSubjects, data_subjects,numEvent_perMin, spacing, Srate)
+rm(l, signal_RP, event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numSubjects, data_subjects,numEvent_perMin, spacing, Srate)
 gc()
