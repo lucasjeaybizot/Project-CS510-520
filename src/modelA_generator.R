@@ -65,10 +65,8 @@ for (k in 1:numSubjects) {
   for (i in 1:numEvents) {
     to_be_added[1:numChannels, event_ID[i]:(event_ID[i] + event_width - 1)] <- simulated_RP[1:numChannels,]    
   }
-  
-  to_be_added <- to_be_added*coef_SNR
 
-  data_subjects[k,1:numChannels,] <- data_subjects[k,1:numChannels,] + to_be_added
+  data_subjects[k,1:numChannels,] <- data_subjects[k,1:numChannels,]*coef_SNR + to_be_added
   
   rm(to_be_added)
   
