@@ -127,5 +127,5 @@ for (l in 1:numSubjects) {
 
 # clear up the environment
 
-rm(l, forecast_map_proba, numChannels, numSamples, timeBins, timeBins_width, varBins_vector, varBins_width, averaged_data_subjects, numFuture, numSubjects, Srate, timeBins_perSecond, varBins)
+rm(averaged_data_subjects, l, forecast_map_proba, numChannels, numSamples, timeBins, timeBins_width, varBins_vector, varBins_width, numFuture, numSubjects, Srate, timeBins_perSecond, varBins)
 gc()
