@@ -88,12 +88,26 @@ for (l in 1:numSubjects) {
   
   modelA_data <- data_subjects[l,,]
   
-  # collapses all activity to average activity (NOTE: later developments will explore different channel combinations/weightings)
+  # spatial filtering based on RP salient channels
+  
+  chanWeigths <- numeric(numChannels)
+  
+  # get weight of spatial filter as function of change of signal before movement at each channel
+  
+  for (chan in 1:numChannels) {
+    chanWeigths[chan] <- mean(signal_RP[chan, (Srate * 3):(Srate * (3 / 2))]) - mean(signal_RP[chan,(Srate * (3/2)):(Srate * 4)])
+    }
+  
+  # scaling spatial weight vector to unit length
+  
+  chanWeigths <- chanWeigths / sqrt(sum(chanWeigths ^ 2))
+  
+  # collapses all activity to average activity weighted with the spatial filter chanWeigths
   
   averaged_data <- matrix(data = NA, nrow = 2, ncol = numSamples)
   
   for (i in 1:numSamples) {
-    averaged_data[1,i] <- mean(modelA_data[1:numChannels,i])
+    averaged_data[1,i] <- t(chanWeigths)%*%modelA_data[1:numChannels,i]
     averaged_data[2,i] <- modelA_data[65,i]
   }
   
@@ -105,5 +119,5 @@ for (l in 1:numSubjects) {
 
 # clear the environment
 
-rm(l, signal_RP, event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numSubjects, data_subjects,numEvent_perMin, spacing, Srate)
+rm(chan, chanWeigths, coef_SNR, l, signal_RP, event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numSubjects, data_subjects,numEvent_perMin, spacing, Srate)
 gc()
