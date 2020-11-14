@@ -53,8 +53,8 @@ parameters <- as.data.frame(t(parameters))
 
 parameters$Srate <- 512                  # sampling rate
 parameters$numSubjects <- 1              # number of subjects
-parameters$varBins <- 30                 # number of possible variable states (for forecast)
-parameters$numFuture <- 40               # number of future time points to be forecasted
+parameters$varBins <- 10                 # number of possible variable states (for forecast)
+parameters$numFuture <- 60               # number of future time points to be forecasted
 parameters$simulation_duration <- 360    # duration of the simulated data (for each subject) in seconds
 parameters$numEvent_perMin <- 3          # desired number of events per minute
 parameters$spacing <- 6                  # desired minimal spacing between each event
