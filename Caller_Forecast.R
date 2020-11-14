@@ -45,8 +45,8 @@ if (length(to_be_installed) > 0) {
 
 # initialize empty parameters data.frame
 
-parameters <- c(0, 0, 0, 0, 0, 0, 0, 0)
-names(parameters) <- c("Srate", "numSubjects", "varBins", "numFuture", "simulation_duration", "numEvent_perMin", "spacing", "timeBins_perSecond")
+parameters <- c(0, 0, 0, 0, 0, 0, 0, 0, 0)
+names(parameters) <- c("Srate", "numSubjects", "varBins", "numFuture", "simulation_duration", "numEvent_perMin", "spacing", "timeBins_perSecond", "coef_SNR")
 parameters <- as.data.frame(t(parameters))
 
 # set default parameters
@@ -58,9 +58,10 @@ parameters$numFuture <- 40               # number of future time points to be fo
 parameters$simulation_duration <- 360    # duration of the simulated data (for each subject) in seconds
 parameters$numEvent_perMin <- 3          # desired number of events per minute
 parameters$spacing <- 6                  # desired minimal spacing between each event
-parameters$timeBins_perSecond <- 5       # desired size of the timepoints in the forecast map
+parameters$timeBins_perSecond <- 20      # desired size of the timepoints in the forecast map
+parameters$coef_SNR <- 1                 # signal to noise ratio of the RP signal in model A
 
-
+#source(paste(src_path, "coef_finder.R", sep = ""))
 # prompt non-default inputs for parameters
 
 user_input <- readline(prompt = "Would you like to use default parameters (y/n)?")
@@ -100,7 +101,7 @@ if (readline(prompt = "Which analysis mode would you like to use forecasting (F)
 
 model_A <- FALSE
 model_B <- FALSE
-  
+
 if (forecast_generation) {
   if (readline(prompt = "Which model would you like to use (A/B): ") == "A") {
     model_A <- TRUE
@@ -117,7 +118,7 @@ if (model_A|model_B) {
   source(paste(src_path, "EEG_simulator.R", sep = ""))
 }
 
-# simulate or preprocess data - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# simulate or preprocess data - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if (model_A) {
   source(paste(src_path, "modelA_generator.R", sep = ""))
@@ -141,7 +142,7 @@ if (data_length_finder) {
   source(paste(src_path, "data_length_finder.R", sep = ""))
 }
 
-## Finishing steps ------------------------------------------------------------------------------------------------------------ 
+## Finishing steps ------------------------------------------------------------------------------------------------------------
 
 # Clear environment
 
