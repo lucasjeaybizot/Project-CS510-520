@@ -60,17 +60,17 @@ for (k in 1:numSubjects) {
   
   # add the RP data to the baseline according to the events' postions 
   
-  to_be_convolved <- array(data = 0, dim = c(numChannels, numSamples))
+  to_be_added <- array(data = 0, dim = c(numChannels, numSamples))
   
   for (i in 1:numEvents) {
-    to_be_convolved[1:numChannels, event_ID[i]:(event_ID[i] + event_width - 1)] <- simulated_RP[1:numChannels,]    
+    to_be_added[1:numChannels, event_ID[i]:(event_ID[i] + event_width - 1)] <- simulated_RP[1:numChannels,]    
   }
   
-  to_be_convolved <- to_be_convolved*coef_SNR
+  to_be_added <- to_be_added*coef_SNR
 
-  data_subjects[k,1:numChannels,] <- convolve(data_subjects[k,1:numChannels,], to_be_convolved)
+  data_subjects[k,1:numChannels,] <- data_subjects[k,1:numChannels,] + to_be_added
   
-  rm(to_be_convolved)
+  rm(to_be_added)
   
   # add the binary event labels in an extra channel
   
