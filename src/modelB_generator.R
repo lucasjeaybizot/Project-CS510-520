@@ -128,18 +128,18 @@ for (k in 1:numSubjects) {
   
   # add the return to baseline according to the events' postions 
   
-  to_be_convolved <- array(data = 0, dim = c(numSamples))
+  to_be_added <- array(data = 0, dim = c(numSamples))
   
   for (i in 1:numEvents) {
-    to_be_convolved[event_ID[i]:(event_ID[i] + event_width - 1)] <- baseline_return    
+    to_be_added[event_ID[i]:(event_ID[i] + event_width - 1)] <- baseline_return    
   }
   
   # convolve simulated data with the return to baseline
-  ### WARNING ### sometimes return mismatch in length inside convolution - to be investigated
+  ### WARNING ### sometimes return mismatch in length below
   
-  averaged_data[1,] <- convolve(averaged_data[1,], to_be_convolved)
+  averaged_data[1,] <- averaged_data[1,] + to_be_added
   
-  rm(to_be_convolved, baseline_return)
+  rm(to_be_added, baseline_return)
 
   # add binary labels of event
   
