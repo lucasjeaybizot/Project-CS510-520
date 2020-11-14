@@ -64,11 +64,9 @@ for (l in 1:numSubjects) {
   
   forecast_map <- matrix(0, nrow = varBins, ncol = numFuture)
   
-  # get varBins width and generate a varabin vector with varBins equidistant values
-  ### WARNING ###: might be very sensitive to outliers - might be worth excluding extreme values before this step
+  # get varBins width and generate a varabin vector with varBins every quantiles values
   
-  varBins_width <- (max(averaged_data[1,]) - min(averaged_data[1,])) / 10
-  varBins_vector <- seq(min(averaged_data[1,]), by = varBins_width, length.out = varBins)
+  varBins_vector <- as.numeric(quantile(averaged_data[1,], probs = seq(0, 1, length.out = varBins)))
   
   # populate forecast map with count of times event happened for each varBin and numFuture combinations
   
@@ -127,5 +125,5 @@ for (l in 1:numSubjects) {
 
 # clear up the environment
 
-rm(averaged_data_subjects, l, forecast_map_proba, numChannels, numSamples, timeBins, timeBins_width, varBins_vector, varBins_width, numFuture, numSubjects, Srate, timeBins_perSecond, varBins)
+rm(averaged_data_subjects, l, forecast_map_proba, numChannels, numSamples, timeBins, timeBins_width, varBins_vector, numFuture, numSubjects, Srate, timeBins_perSecond, varBins)
 gc()
