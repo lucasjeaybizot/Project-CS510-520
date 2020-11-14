@@ -36,6 +36,7 @@ if (!exists("parameters")) {
 numEvent_perMin <- parameters$numEvent_perMin     # desired ratio of events per min
 spacing <- parameters$spacing                     # desired minimum spacing (in s) between any two events
 Srate <- parameters$Srate                         # sampling rate
+coef_SNR <- parameters$coef_SNR                   # coefficient of the signal to noise ratio of the added RP
 
 # set up additional parameters
 
@@ -64,6 +65,8 @@ for (k in 1:numSubjects) {
   for (i in 1:numEvents) {
     to_be_convolved[1:numChannels, event_ID[i]:(event_ID[i] + event_width - 1)] <- simulated_RP[1:numChannels,]    
   }
+  
+  to_be_convolved <- to_be_convolved*coef_SNR
 
   data_subjects[k,1:numChannels,] <- convolve(data_subjects[k,1:numChannels,], to_be_convolved)
   
