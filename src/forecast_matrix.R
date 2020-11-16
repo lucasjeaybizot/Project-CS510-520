@@ -112,6 +112,10 @@ for (l in 1:numSubjects) {
   
   forecast_map_proba[is.na(forecast_map_proba)] <- 0
   
+  # normalize the forecast map
+  
+  ### QUESTION ### SHOULD I NORMALIZE IN NON-COMPARISON STEPS?
+  
   # store the forecast map
   
   forecast_subjects[l,,] <- forecast_map_proba 
