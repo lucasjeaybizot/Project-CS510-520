@@ -143,6 +143,10 @@ if (data_length_finder) {
   source(paste(src_path, "data_length_finder.R", sep = ""))
 }
 
+# run visuals - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+#heatmap(forecast_subjects[1,,], Rowv = NA, Colv = NA, scale = "none") # for later implementation
+
 ## Finishing steps ------------------------------------------------------------------------------------------------------------
 
 # Clear environment
