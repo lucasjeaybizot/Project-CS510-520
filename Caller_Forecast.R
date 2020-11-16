@@ -35,7 +35,7 @@ data_path <- paste(project_path, "/data/", sep = "")
 
 ## Install packages if missing -------------------------------------------------------------------------------------------------
 
-dependencies <- c("pracma", "abind")
+dependencies <- c("pracma", "abind", "signal")
 to_be_installed <- dependencies[!(dependencies %in% installed.packages()[,"Package"])]
 if (length(to_be_installed) > 0) {
   install.packages(to_be_installed)
