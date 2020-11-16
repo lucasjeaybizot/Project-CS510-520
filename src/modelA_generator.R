@@ -15,6 +15,11 @@
 
 # averaged_data_subjects -> 3D matrix (subjects-by-channel-by-sample) with simulated baseline EEG data with RP distributed according to model A
 
+## DEPENDENCIES ----------------------------------------------------------------------------------------------------------------
+
+library("signal")
+### WARNING ### Conflicts with "pracma" package --- returns a warning --- needs to be checked further
+
 ## Variables initiation --------------------------------------------------------------------------------------------------------
 
 # check data
@@ -111,22 +116,24 @@ for (l in 1:numSubjects) {
     averaged_data[2,i] <- modelA_data[65,i]
   }
   
-  ####### UNDER CONSTRUCTION -- PROBABLY WILL HAVE TO RESORT TO A PACKAGES: e.g. "signal" #######
+  # apply a 10Hz low-pass butterworth filter or order 3 to the signal using the signal toolbox 
+  ### WARNING ### need to check this is correct way to filter
   
-  # apply low-pass filter to the signal (1/10th of a second)
-  ### WARNING ### that filter introduces NAs.. 
+  butter_filt <- butter(3, 0.1)
   
-  #averaged_data[1,] <- filter(averaged_data[1,], rep(1 / floor(Srate / 10), floor(Srate / 10)), sides = 2)
+  averaged_data[1,] <- filtfilt(butter_filt, averaged_data[1,])
+  
+  rm(butter_filt)
   
   # get the signal's derivative
   ### WARNING ### quickfixed pasted a 0 to get equal length vectors
   
-  #averaged_data[1,] <- c(diff(averaged_data[1,], lag = 1),0)
+  averaged_data[1,] <- c(diff(averaged_data[1,], lag = 1),0)
   
-  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+  # store the subject specific result in 3D cube (with all subjects)
   
   averaged_data_subjects[l,,] <- averaged_data
-  rm(averaged_data, modelA_data)
+  rm(modelA_data) # pasteback averaged_data, 
 }
 
 ## Finishing steps ------------------------------------------------------------------------------------------------------------ 
