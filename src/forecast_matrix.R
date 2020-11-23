@@ -122,7 +122,7 @@ for (l in 1:numSubjects) {
   
   # clear up the environment
   
-  rm(averaged_data_resampled, i, j, k, forecast_map) # 'averaged_data, ' to be pasted back
+  rm(averaged_data, averaged_data_resampled, i, j, k, forecast_map)
 }
 
 ## Finishing steps ------------------------------------------------------------------------------------------------------------ 
