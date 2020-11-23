@@ -30,7 +30,7 @@ if (!exists("data_subjects")) {
 
 # load input data
 
-signal_RP <- as.matrix(read.csv(paste(data_path, "RP_data.csv", sep = ""),header = TRUE))
+signal_RP <- as.matrix(read.csv(paste(data_path, "RP_data_fakefortest.csv", sep = ""),header = TRUE))
 
 # set up variables from parameters data.frame
 
@@ -118,6 +118,8 @@ for (l in 1:numSubjects) {
   
   # apply a 10Hz low-pass butterworth filter or order 3 to the signal using the signal toolbox 
   ### WARNING ### need to check this is correct way to filter
+  
+  ### WARNING ### maybe better to filter up-stream -- before combining the channels
   
   butter_filt <- butter(3, 0.1)
   
