@@ -135,7 +135,7 @@ for (l in 1:numSubjects) {
   # store the subject specific result in 3D cube (with all subjects)
   
   averaged_data_subjects[l,,] <- averaged_data
-  rm(modelA_data) # pasteback averaged_data, 
+  rm(averaged_data, modelA_data) 
 }
 
 ## Finishing steps ------------------------------------------------------------------------------------------------------------ 
