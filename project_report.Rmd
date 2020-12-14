@@ -176,12 +176,12 @@ parameters$simulation_duration <- 360    # duration of the simulated data (for e
 parameters$numEvent_perMin <- 3          # desired number of events per minute
 parameters$spacing <- 6                  # desired minimal spacing between each event
 parameters$timeBins_perSecond <- 20      # desired size of the timepoints in the forecast map
-parameters$coef_SNR <- 1                 # signal to noise ratio of the RP signal in model A
+parameters$coef_SNR <- 100              # signal to noise ratio of the RP signal in model A
 
 parameters
 ```
 
-Here, the choice for Srate was based on the sampling rate of real EEG data, numSubjects was set to 1 as this parameter is not yet fully implemented in all the analysis (most of the code can only process one subject at time yet), varBins was arbitrarily set to 30, numFuture was set to 60 to allow for forecasting up to 3 seconds in the future (thus encompassing the RP), simulation_duration was set to 360 for computationability, numEvent_perMin was set to 3 to mimic a real setting, spacing was set to 6 to avoid an overlap of RPs, timeBins_perSecond was set to 20 to allow increase forecasting accuracy and coef_SNR was set to 1 such that the signal (RP) and the noise would mimic real EEG data.
+Here, the choice for Srate was based on the sampling rate of real EEG data, numSubjects was set to 1 as this parameter is not yet fully implemented in all the analysis (most of the code can only process one subject at time yet), varBins was arbitrarily set to 30, numFuture was set to 60 to allow for forecasting up to 3 seconds in the future (thus encompassing the RP), simulation_duration was set to 360 for computationability, numEvent_perMin was set to 3 to mimic a real setting, spacing was set to 6 to avoid an overlap of RPs, timeBins_perSecond was set to 20 to allow increase forecasting accuracy and coef_SNR was set to 100 such that the signal (RP) would be apparent even with only 18 events (for computational power reasons).
 
 These default parameters yield the following forecast maps, respectively for model A and model B:
 
