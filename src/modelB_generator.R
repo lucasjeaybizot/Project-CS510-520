@@ -1,6 +1,6 @@
 ## Author: Lucas Jeay-Bizot
 ## Created: 11/06/2020
-## Last modified: 11/10/2020
+## Last modified: 12/11/2020
 
 #### Function: This code will generate simulated EEG data with events distributed according to model B
 
@@ -25,6 +25,10 @@ library("pracma")
 if (!exists("data_subjects")) {
   stop("Missing simulated EEG datacube: please run this script after EEG_simulator.R")
 }
+
+# load input data for spatial filter
+
+signal_RP <- as.matrix(read.csv(paste(data_path, "RP_data_fakefortest.csv", sep = ""),header = TRUE))
 
 # set up variables from parameters data.frame
 
@@ -53,19 +57,40 @@ averaged_data_subjects <- array(data = NA, dim = c(numSubjects, 2, numSamples))
 
 for (k in 1:numSubjects) {
   
+  # extract data
+  
+  modelB_data <- data_subjects[k,,]
+  
+  # spatial filtering based on RP salient channels
+  
+  chanWeigths <- numeric(numChannels)
+  
+  # get weight of spatial filter as function of change of signal before movement at each channel
+  
+  for (chan in 1:numChannels) {
+    chanWeigths[chan] <- mean(signal_RP[chan, (Srate * 3):(Srate * (3 / 2))]) - mean(signal_RP[chan,(Srate * (3/2)):(Srate * 4)])
+  }
+  
+  # scaling spatial weight vector to unit length
+  
+  chanWeigths <- chanWeigths / sqrt(sum(chanWeigths ^ 2))
   
   # collapses all activity to average activity (NOTE: later developments will explore different channel combinations/weightings)
   
   averaged_data <- matrix(, nrow = 2, ncol = numSamples)
   
   for (i in 1:numSamples) {
-    averaged_data[1,i] <- mean(data_subjects[k,1:numChannels, i])
+    averaged_data[1,i] <- t(chanWeigths)%*%modelB_data[1:numChannels,i]
     averaged_data[2,i] <- 0
   }
   
-  # generate temp of smoothed signal (of 1/10th of a second)
+  # generate temp of smoothed signal (of 1/10th of a second with butter filter)
   
-  signal_filtered <- filter(averaged_data[1,], rep(1 / floor(Srate / 10), floor(Srate / 10)), sides = 2)
+  butter_filt <- butter(3, 0.1)
+  
+  signal_filtered <- filtfilt(butter_filt, averaged_data[1,])
+  
+  rm(butter_filt)
   
   # get slope of smoothed signal
   ### WARNING ### not same length as averaged_data[1,] - NEEDS FIXING
@@ -157,5 +182,5 @@ for (k in 1:numSubjects) {
 
 # clear the environment
 
-rm(event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numEvent_perMin, numSubjects, spacing, Srate, data_subjects)
+rm(chan, chanWeigths ,signal_RP ,event_spacing, event_width, i, k, numChannels, numEvents, numSamples, numEvent_perMin, numSubjects, spacing, Srate, data_subjects)
 gc()
