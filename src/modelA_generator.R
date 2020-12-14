@@ -1,6 +1,6 @@
 ## Author: Lucas Jeay-Bizot
 ## Created: 10/22/2020
-## Last modified: 11/10/2020
+## Last modified: 12/11/2020
 
 #### Function: This code will generate simulated EEG data with events distributed according to model A
 
@@ -118,7 +118,7 @@ for (l in 1:numSubjects) {
   
   # apply a 10Hz low-pass butterworth filter or order 3 to the signal using the signal toolbox 
   ### WARNING ### need to check this is correct way to filter
-  
+  ### WARNING ### choice of 10Hz might need to be reconsidered - it depends on the timebin size of the forecast map - 2Hz is probably ideal considering RP might be 0.5s
   ### WARNING ### maybe better to filter up-stream -- before combining the channels
   
   butter_filt <- butter(3, 0.1)
