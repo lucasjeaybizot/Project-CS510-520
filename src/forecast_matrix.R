@@ -114,7 +114,7 @@ for (l in 1:numSubjects) {
   
   # normalize the forecast map
   
-  ### QUESTION ### SHOULD I NORMALIZE IN NON-COMPARISON STEPS?
+  ### STILL NEEDS CONSIDERATION - BUT NO NORMALIZATION NECESSARY AT THIS POINT ###
   
   # store the forecast map
   
