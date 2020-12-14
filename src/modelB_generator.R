@@ -28,7 +28,7 @@ if (!exists("data_subjects")) {
 
 # load input data for spatial filter
 
-signal_RP <- as.matrix(read.csv(paste(data_path, "RP_data_fakefortest.csv", sep = ""),header = TRUE))
+signal_RP <- as.matrix(read.csv(paste(data_path, "RP_data_subject008.csv", sep = ""),header = TRUE))
 
 # set up variables from parameters data.frame
 
