@@ -1,6 +1,6 @@
 ## Author: Lucas Jeay-Bizot
 ## Created: 10/24/2020
-## Last modified: 11/11/2020
+## Last modified: 12/11/2020
 
 #### Function: This code will call generation of different datasets and analyse them to construct a forecast maps. 
 # Another feature of this script is the data_length_finder feature that generates a graph of convergence of forecast maps 
@@ -33,6 +33,8 @@ src_path <- paste(project_path, "/src/", sep = "")
 
 data_path <- paste(project_path, "/data/", sep = "")
 
+result_path <- paste(project_path, "/results/", sep = "")
+
 ## Install packages if missing -------------------------------------------------------------------------------------------------
 
 dependencies <- c("pracma", "abind", "signal")
@@ -40,6 +42,12 @@ to_be_installed <- dependencies[!(dependencies %in% installed.packages()[,"Packa
 if (length(to_be_installed) > 0) {
   install.packages(to_be_installed)
   }
+
+## Load Packages ---------------------------------------------------------------------------------------------------------------
+
+library(pracma)
+library(abind)
+library(signal)
 
 ## Variables initiation --------------------------------------------------------------------------------------------------------
 
@@ -59,9 +67,8 @@ parameters$simulation_duration <- 360    # duration of the simulated data (for e
 parameters$numEvent_perMin <- 3          # desired number of events per minute
 parameters$spacing <- 6                  # desired minimal spacing between each event
 parameters$timeBins_perSecond <- 20      # desired size of the timepoints in the forecast map
-parameters$coef_SNR <- 0                 # signal to noise ratio of the RP signal in model A
+parameters$coef_SNR <- 1                 # signal to noise ratio of the RP signal in model A
 
-#source(paste(src_path, "coef_finder.R", sep = ""))
 # prompt non-default inputs for parameters
 
 user_input <- readline(prompt = "Would you like to use default parameters (y/n)?")
@@ -89,67 +96,51 @@ if (parameters$spacing < 5) {
 
 # analysis mode selection:
 
-forecast_generation <- FALSE
-data_length_finder <- FALSE
+analysis_mode <- readline(prompt = "Which analysis mode would you like to use forecasting (F) or data length finder (DLF)?")
 
-if (readline(prompt = "Which analysis mode would you like to use forecasting (F) or data length finder (DLF): ") == "F") {
-  forecast_generation <- TRUE
-} else {
-  data_length_finder <- TRUE
-}
+switch(analysis_mode,
+       "F" = source(paste(src_path, "EEG_simulator.R", sep = "")),
+       "DLF" = source(paste(src_path, "data_length_finder.R", sep = ""))
+)
 
-# simulation mode selection for forecast_generation:
+## Run scripts ----------------------------------------------------------------------------------------------------------------
 
-model_A <- FALSE
-model_B <- FALSE
-
-if (forecast_generation) {
-  if (readline(prompt = "Which model would you like to use (A/B): ") == "A") {
-    model_A <- TRUE
-  } else {
-    model_B <- TRUE
-  }
-}
-
-## Run scripts --------------------------------------------------------------------------------------------------------------
-
-# call baseline generator - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-if (model_A|model_B) {
-  source(paste(src_path, "EEG_simulator.R", sep = ""))
-}
-
-# simulate or preprocess data - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-if (model_A) {
-  source(paste(src_path, "modelA_generator.R", sep = ""))
-}
-
-rm(model_A)
-
-if (model_B) {
-  source(paste(src_path, "modelB_generator.R", sep = ""))
-}
-
-rm(model_B)
-
-# run analysis  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-if (forecast_generation) {
+if (analysis_mode == "F") {
+  model_to_be_used <- readline(prompt = "Which model would you like to use (A/B)?")
+  switch(model_to_be_used,
+         "A" = source(paste(src_path, "modelA_generator.R", sep = "")),
+         "B" = source(paste(src_path, "modelB_generator.R", sep = ""))
+         )
   source(paste(src_path, "forecast_matrix.R", sep = ""))
-}
-
-if (data_length_finder) {
-  source(paste(src_path, "data_length_finder.R", sep = ""))
+  rm(model_to_be_used)
 }
 
 # run visuals - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-#heatmap(forecast_subjects[1,,], Rowv = NA, Colv = NA, scale = "none") # for later implementation
+if (analysis_mode == "F") {
+  if (readline(prompt = "Would you like to see a heatmap plot of the forecast matrix (y/n): ") == "y") {
+    heatmap(forecast_subjects[1,,], Rowv = NA, Colv = NA, scale = "none", ylab = "Signal Amplitude", xlab = "Time in the Future")
+  }
+}
+
+# prompts storage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+if (analysis_mode == "F") {
+  if (readline(prompt = "Would you like to save this forecast matrix (y/n) ?") == "y") {
+    fileName <- readline(prompt = "Please type the desired file name: ")
+    forecast_map <- forecast_subjects[1,,]
+    write.table(forecast_map, file = paste(result_path, fileName, ".Rdata", sep = ""))
+    rm(fileName, forecast_subjects)
+  }
+}
 
 ## Finishing steps ------------------------------------------------------------------------------------------------------------
 
 # Clear environment
 
-rm(forecast_generation, data_length_finder, user_input, project_path, src_path, data_path, dependencies, to_be_installed)
+rm(parameters, analysis_mode, data_path, dependencies, project_path, result_path, src_path, to_be_installed, user_input)
+
 gc()
+
+# FOR RMARKDOWN
+# heatmap(as.matrix(read.table(file = paste(result_path, fileName, ".Rdata", sep = ""))), Rowv = NA, Colv = NA, scale = "none", ylab = "Signal Amplitude", xlab = "Time in the Future")
