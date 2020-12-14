@@ -1,6 +1,6 @@
 ## Author: Lucas Jeay-Bizot
 ## Created: 10/22/2020
-## Last modified: 11/10/2020
+## Last modified: 12/11/2020
 
 #### Function: This code will generate simulated baseline EEG data
 
@@ -26,7 +26,7 @@ source(paste(src_path, "change_beta.R", sep = ""))
 
 # load input data
 
-EEG_values <- read.csv(paste(data_path, "EEG_values.csv", sep = ""), header = FALSE, sep = ",")
+EEG_values <- read.csv(paste(data_path, "EEG_values_subject008.csv", sep = ""), header = FALSE, sep = ",")
 
 # set up variables from parameters data.frame
 
