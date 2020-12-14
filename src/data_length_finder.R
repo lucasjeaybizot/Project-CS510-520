@@ -1,6 +1,6 @@
 ## Author: Lucas Jeay-Bizot
 ## Created: 11/07/2020
-## Last modified: 11/11/2020
+## Last modified: 12/11/2020
 
 # Function: This code will run multiple simulations and generate forecasts maps with varying simulation_duration
 # It will then plot the distances between two maps (y-axis) against data_length (x-axis)
@@ -8,6 +8,8 @@
 
 #### TAKES A LOT LOT LOT OF TIME TO COMPLETE ####
 #### TRY RUNNING WITH SMALL ITERATION VALUE ON YOUR PC ####
+
+### model selection is hardcoded - needs to be brought to input prompt ###
 
 ## Variables initiation -------------------------------------------------------------------------------------------------------
 
@@ -28,7 +30,7 @@ if (parameters$numSubjects > 1) {
 
 ## Start of computations ------------------------------------------------------------------------------------------------------ 
 
-for (x in 1:iterations) {
+for (xx in 1:iterations) {
   
   tic()
   
@@ -60,13 +62,13 @@ for (x in 1:iterations) {
   
   # store distance in an ordered vector for plotting
   
-  distance_for_plotting[x] <- dist_maps
+  distance_for_plotting[xx] <- dist_maps
   
   # increment the simulation duration for the next iteration
   
   parameters$simulation_duration = parameters$simulation_duration + simulation_duration_initial
   
-  disp("this is iteration number",x,"yielding distance",dist_maps, "and it took:")
+  disp("this is iteration number", xx, "yielding distance", dist_maps, "and it took:")
   toc()
 }
 
@@ -74,9 +76,14 @@ for (x in 1:iterations) {
 
 # clear the environment
 
-rm(dist_maps, forecast_subjects, i, j, iterations, simulation_duration_initial, x, map_A, map_B)
+rm(dist_maps, forecast_subjects, i, j, xx, iterations, simulation_duration_initial, map_A, map_B)
 gc()
 
 # plot the distances between two maps (y-axis) against data_length (x-axis)
 
-plot(distance_for_plotting)
+disp(" The resulting plot represents the difference between forecast maps (y-axis) as a function of the number of events fed into the forecast (x-axis)")
+plot(distance_for_plotting, xlab = "Number of Events", ylab = "Difference between Forecast Maps")
+
+#FOR RMARKDOWN - careful - this is hardcoded - needs adapting
+#plot(as.matrix(read.table("C:/Users/lucas/Desktop/Project/Project-CS510-520/examples/example_distance_plot.Rdata")), xlab = "Number of Events", ylab = "Difference between Forecast Maps", ylim = c(0,0.1))
+# plot(diff(as.matrix(read.table(paste(result_path, "DataLentgh_modelA_result_015.Rdata",sep = ""))), lag = 1), xlab = "Number of Events", ylab = "Difference between Forecast Maps", ylim = c(-0.2,0.2))
