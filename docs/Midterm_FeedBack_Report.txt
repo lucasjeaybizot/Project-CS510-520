@@ -1,0 +1,13 @@
+In this txt file I write how I addressed each point of the midterm feedback
+
+- one reviewer reported a reproducibility error with "tic()" this was due to the library loading not being centralized (they were in seperate files) so I brought the library calling to the Caller_Forecast.R
+
+- one reviewer was asking for more info on EEG data - I explained in the project report introduction was EEG data is like.
+
+- one reviewer was asking for interpretation of the output - I now added visuals (heatmaps) and accompanying explanations in the project report
+
+- one reviewer suggested using case statements in the Caller_Forecast.R - case statements were implemented there to replace a bulk of if statements
+
+- one reviewer suggested for the test to be runable from the main dir - I modified the test.R code such that it can (should) be run from the main dir
+
+- one reviewer remarked that tests should return a 'Passed' statement if the test is passed - I modified the test.R code such that it returns a 'passed' message if the test is passed 
